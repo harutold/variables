@@ -6,6 +6,10 @@ from variables.models import *
 
 register = template.Library()
 
+class VariableTemplateError(template.TemplateSyntaxError):
+    def __unicode__(self):
+        return self.message
+
 @register.tag(name="variable")
 def variable(parser, token):
     tokens = token.contents.split()
@@ -24,8 +28,9 @@ class VariableNode(template.Node):
             var = Variable.objects.get(name=name)
         except Variable.DoesNotExist:
             print name
-            raise Exception(u"""
+            raise VariableTemplateError(u"""
                             Переменная с названием «%s» не определена.
                             Пожалуйста, заполните её значение через административный интерфейс.""" % name)
+            print name
         
         return var.value
