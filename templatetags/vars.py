@@ -27,10 +27,8 @@ class VariableNode(template.Node):
             name = u''.join([unicode(resolve_variable(x, context)) for x in self.names])
             var = Variable.objects.get(name=name)
         except Variable.DoesNotExist:
-            print name
             raise VariableTemplateError(u"""
                             Переменная с названием «%s» не определена.
                             Пожалуйста, заполните её значение через административный интерфейс.""" % name)
-            print name
         
         return var.value
