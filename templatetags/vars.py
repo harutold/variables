@@ -53,4 +53,4 @@ class SilentVariableNode(template.Node):
         except Variable.DoesNotExist:
             value = ""
         
-        return var
+        return value
